@@ -15,12 +15,24 @@ module.exports = (opts = {}) => {
     rule.selectors = [...rule.selectors, 'Button.unity-button']
   }
 
+  function warnOnAuto(decl, result) {
+    if (opts.skipAutoWarn) return;
+
+    if (decl.value == 'auto') {
+      decl.warn(result, 'The auto keyword is not supported in Unity 2018')
+    }
+  }
+
   return {
     postcssPlugin: 'postcss-unity3d',
 
     Rule (rule) {
       addUnityButtonClass(rule)
+    },
+    Declaration(decl, {result}) {
+      warnOnAuto(decl, result)
     }
+
   }
 }
 
