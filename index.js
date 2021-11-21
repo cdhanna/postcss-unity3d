@@ -2,29 +2,25 @@
  * @type {import('postcss').PluginCreator}
  */
 module.exports = (opts = {}) => {
-  // Work with options here
+  function addUnityButtonClass(rule){
+    if (opts.skipUnityButton) return;
+
+    const hasButton = rule.selectors.filter(s => s == 'Button').length > 0;
+
+    if (!hasButton) return;
+
+    const hasUnityButton = rule.selectors.filter(s => s == 'Button.unity-button').length > 0;
+    if (hasUnityButton) return;
+
+    rule.selectors = [...rule.selectors, 'Button.unity-button']
+  }
 
   return {
     postcssPlugin: 'postcss-unity3d',
-    /*
-    Root (root, postcss) {
-      // Transform CSS AST here
-    }
-    */
 
-    /*
-    Declaration (decl, postcss) {
-      // The faster way to find Declaration node
+    Rule (rule) {
+      addUnityButtonClass(rule)
     }
-    */
-
-    /*
-    Declaration: {
-      color: (decl, postcss) {
-        // The fastest way find Declaration node if you know property name
-      }
-    }
-    */
   }
 }
 

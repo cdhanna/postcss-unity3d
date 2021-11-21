@@ -5,14 +5,15 @@
 [PostCSS]: https://github.com/postcss/postcss
 
 ```css
-.foo {
-  /* Input example */
+Button {
+  /* any styles... */
 }
 ```
 
 ```css
-.foo {
-  /* Output example */
+Button.unity-button,
+Button {
+  /* same styles */
 }
 ```
 

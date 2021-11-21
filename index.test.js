@@ -8,10 +8,15 @@ async function run (input, output, opts = { }) {
   expect(result.warnings()).toHaveLength(0)
 }
 
-/* Write tests here
-
-it('does something', async () => {
-  await run('a{ }', 'a{ }', { })
+it('Adds a Button.unity-button selector', async () => {
+  await run('Button { color: red; }', 'Button, Button.unity-button { color: red; }', { })
 })
-
-*/
+it('Does not add a unity-button selector if no Button exists', async () => {
+  await run('a { color: red; }', 'a { color: red; }', { })
+})
+it('Does not add a unity-button selector if it is already accounted for', async () => {
+  await run('Button, Button.unity-button { color: red; }', 'Button, Button.unity-button { color: red; }', { })
+})
+it('Does not add a unity-button selector if skip is enabled', async () => {
+  await run('Button { color: red; }', 'Button { color: red; }', { skipUnityButton: true })
+})
