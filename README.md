@@ -1,8 +1,14 @@
 # postcss-unity3d
 
-[PostCSS] plugin helps fix common mistakes for uss files.
+[PostCSS] plugin helps fix common mistakes for Unity 3d `.uss` files meant to be used across Unity 2018, 2019, and 2020.
+The plugin is meant to be used with the [PostUSS] package for Unity3d.
 
 [PostCSS]: https://github.com/postcss/postcss
+[PostUSS]: https://github.com/cdhanna/postuss
+
+This plugin supports the following features.
+- Automatically add `Button.unity-button` selector to rules that target `Button`. In Unity 2018, you can select a `UnityEngine:Button` component with the `Button` selector, but in 2020, they added a `unity-button` class to their buttons, making your `Button` based declarations less specific than the default Unity style sheets. By automatically adding the `Button.unity-button` selector, your declarations become relevant again, and you actually override the default Unity styles.
+- Warn against declarations that use the `auto` keyword  
 
 ```css
 Button {
