@@ -23,6 +23,7 @@ Button {
 }
 ```
 
+
 ## Usage
 
 **Step 1:** Install plugin:
@@ -48,5 +49,10 @@ module.exports = {
   ]
 }
 ```
+
+## TODO
+- Disallow `active`, `activeColor`, and `activeBorder` 
+- Warn when declarations don't specify units
+- automatically change `background-color: none` to `background-color: rgba(0,0,0,0)`
 
 [official docs]: https://github.com/postcss/postcss#usage
