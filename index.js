@@ -1,3 +1,6 @@
+var isShorthand = require('is-css-shorthand')
+var shorthandExpand = require('css-shorthand-expand')
+
 /**
  * @type {import('postcss').PluginCreator}
  */
@@ -23,6 +26,23 @@ module.exports = (opts = {}) => {
     }
   }
 
+  function expandDecls(decl) {
+
+    function isSupportedShorthand (shorthand) {
+      return ['padding', 'margin', 'border-width'].indexOf(shorthand) >= 0
+    }
+
+    if (isShorthand(decl.prop) && isSupportedShorthand(decl.prop)) {
+      var expandedDecls = shorthandExpand(decl.prop, decl.value)
+
+      Object.keys(expandedDecls).forEach(function (prop) {
+        decl.after(prop +':' + expandedDecls[prop] + ';')
+      })
+
+      decl.remove()
+    }
+  }
+
   return {
     postcssPlugin: 'postcss-unity3d',
 
@@ -31,6 +51,7 @@ module.exports = (opts = {}) => {
     },
     Declaration(decl, {result}) {
       warnOnAuto(decl, result)
+      expandDecls(decl)
     }
 
   }

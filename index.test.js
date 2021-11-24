@@ -10,7 +10,6 @@ async function run (input, output, opts = { }) {
 
 async function hasWarn(input, opts = {}, err) {
   let result = await postcss([plugin(opts)]).process(input, { from: undefined })
-  console.log(result)
   expect(result.warnings()).toHaveLength(1)
   expect(result.warnings()[0].text).toEqual(err)
 }
@@ -33,4 +32,14 @@ it('Throws a warning if you use the auto keyword anywhere', async () => {
 })
 it('Does not throw a warning if skipAutoWarn is enabled', async () => {
   await run('a {width: auto; }', 'a {width: auto; }', {skipAutoWarn: true})
+})
+
+it('expands the padding decl', async () => {
+  await run('a {padding: 4px; }', 'a {padding-left:4px;padding-bottom:4px;padding-right:4px;padding-top:4px; }', {})
+})
+it('expands the margin decl', async () => {
+  await run('a {margin: 4px; }', 'a {margin-left:4px;margin-bottom:4px;margin-right:4px;margin-top:4px; }', {})
+})
+it('expands the border-width decl', async () => {
+  await run('a {border-width: 4px; }', 'a {border-left-width:4px;border-bottom-width:4px;border-right-width:4px;border-top-width:4px; }', {})
 })
